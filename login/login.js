@@ -8,34 +8,28 @@ document.addEventListener('DOMContentLoaded', function() {
   const privateKeyInput = document.getElementById('private-key-input');
   const submitKeyBtn = document.getElementById('submit-key');
   
-  // Always ensure both buttons are visible when opening the extension
-  // and hide any previously shown key
+  
   loginBtn.style.display = 'block';
   generateKeyBtn.style.display = 'block';
   keyContainer.style.display = 'none';
   keyInputPanel.style.display = 'none';
   
-  // Login button click - Show input panel
   loginBtn.addEventListener('click', function() {
     loginBtn.style.display = 'none';
     keyInputPanel.style.display = 'block';
   });
   
-  // Submit key button click
   submitKeyBtn.addEventListener('click', async function() {
     const inputKey = privateKeyInput.value.trim();
     
     if (inputKey === '') {
-      // Do nothing if the input is empty (no notification needed)
       return;
     }
     
     try {
-      // Check if key exists in database
       const verifyResponse = await verifyKeyInDatabase({ privateKey: inputKey });
       
       if (verifyResponse.success) {
-        // If key exists, store it and proceed to main page
         const userInfo = {
           privateKey: inputKey,
           userId: verifyResponse.userId || generateUserId()
@@ -44,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         await chrome.storage.local.set({ userInfo });
         window.location.href = '../popup/popup.html';
       } else {
-        // If key doesn't exist, register it as a new user
         const userInfo = {
           privateKey: inputKey,
           userId: generateUserId()
@@ -70,19 +63,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Generate a new unique key
   generateKeyBtn.addEventListener('click', async function() {
     try {
       const privateKey = generateUniqueKey();
       
-      // Hide the generate key button and show the key container in its place
       generateKeyBtn.style.display = 'none';
       keyContainer.style.display = 'block';
       
-      // Show the generated key
       privateKeyText.textContent = formatPrivateKey(privateKey);
       
-      // Store the key locally (but don't send to DB yet)
       const userInfo = {
         privateKey: privateKey,
         userId: generateUserId()
@@ -96,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Copy key button functionality
   copyKeyBtn.addEventListener('click', function() {
     chrome.storage.local.get(['userInfo'], function(result) {
       if (result.userInfo && result.userInfo.privateKey) {
@@ -123,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Add Enter key support for the private key input
   privateKeyInput.addEventListener('keyup', function(event) {
     if (event.key === 'Enter') {
       submitKeyBtn.click();
