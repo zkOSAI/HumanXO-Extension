@@ -1,3 +1,3 @@
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Solana Wallet Extension installed');
+  console.log('Human XO browser extension installed');
 });
