@@ -1,0 +1,196 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  width: 360px;
+  height: 550px;
+  
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffdfcc;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #e7a381;
+  padding-bottom: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  background-color: #FF5500;
+  padding: 6px 15px;
+  border-radius: 5px;
+  color: white;
+}
+
+.logo-dot {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 100%;
+  margin-right: 8px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 1);
+}
+
+.brand-name {
+  font-weight: semibold;
+  font-size: 20px;
+}
+
+.logo-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.humanxo-logo {
+  width: 100px;
+  height: 100px;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-bottom: 1px solid #e7a381;
+  padding-bottom: 22px;
+  margin-bottom: 12px;
+}
+
+.primary-button {
+  background-color: #ff5e00;
+  color: #ffffff;
+  border: 1px solid #FF5500;
+  border-radius: 4px;
+  padding: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: #ff5e00;
+  border: 1px solid #FF5500;
+  border-radius: 4px;
+  padding: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+
+.key-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.private-key {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #FF5500;
+  border-radius: 5px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #FF5500;
+  background-color: transparent;
+  word-break: break-all;
+}
+
+#private-key-text {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #FF5500;
+  word-break: break-all;
+}
+
+.copy-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.footer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.important-text {
+  color: #FF5500;
+  font-size: 15px;
+}
+
+.important-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.important-desc {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.private-key-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FF5500;
+  color: #ffffff;
+  padding: 15px 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+::placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+
+.key-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.enter-icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  background-color: #ffffff;
+  color: #FF5500;
+}
+
+.enter-icon:hover {
+  opacity: 0.7;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HumanXO - Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">
+        <div class="logo-dot"></div>
+        <div class="brand-name">HumanXO</div>
+      </div>
+    </div>
+    
+    <div class="logo-container">
+      <div class="humanxo-logo">
+        <img src="../images/icon-32.png" width="100" height="80" alt="">
+      </div>
+    </div>
+    
+    <div class="login-section">
+      <!-- Login Button (initial view) -->
+      <button id="login-btn" class="primary-button">Login with the generated private key</button>
+      
+      <div id="key-input-panel" style="display: none; margin-top: 15px;">
+        <div class="private-key-input">
+          <input type="text" id="private-key-input" placeholder="Input your private key" class="key-input">
+          <span class="enter-icon" id="submit-key"><img src="../images/enter-icon.png" width="17px" height="17px" alt=""></span>
+        </div>
+      </div>
+      
+      <!-- Key Container (shows when key is generated) -->
+      <div id="key-container" class="key-container" style="display: none; margin-top: 15px;">
+        <div class="private-key">
+          <span id="private-key-text">Your private key will appear here</span>
+          <span class="copy-icon" id="copy-key"><img src="../images/icon-33.png" width="15px" height="15px" alt=""></span>
+        </div>
+      </div>
+      
+      <!-- Generate Key Button (always visible) -->
+      <button id="generate-key-btn" class="secondary-button">Generate new private key</button>
+    </div>
+    
+    <div class="footer">
+      <div class="important-text">
+        <div class="important-title">Important</div>
+        <div class="important-desc">This is your only copy of the private key.<br>It can't be recovered if lost.<br>Save it securely.</div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="login.js"></script>
+</body>
+</html>
