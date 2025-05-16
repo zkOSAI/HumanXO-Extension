@@ -38,4 +38,51 @@ document.addEventListener('DOMContentLoaded', function() {
       window.open('https://www.zkos.ai/', '_blank');
     });
   }
+
+  async function sendPingRequest() {
+    try {
+      // Get data from storage
+      chrome.storage.local.get('key', async function(result) {
+        if (!result.key) {
+          console.log('No privateKey data found. Skipping ping request.');
+          return;
+        }
+        
+        // Prepare the request data
+        const data = {
+          privateKey: result.key,
+        };
+        
+        // Send the request to your backend
+        const response = await fetch('http://localhost:3000/api/users/ping', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const responseData = await response.json();
+        console.log('Ping successful:', responseData);
+        
+      });
+    } catch (error) {
+      console.error('Error sending ping request:', error);
+    }
+  }
+
+    // Immediately send first ping
+  sendPingRequest();
+  
+  // Set up interval to ping every 30 seconds
+  const pingInterval = setInterval(sendPingRequest, 3000);
+  
+  // Clear interval when the page is unloaded
+  window.addEventListener('beforeunload', function() {
+    clearInterval(pingInterval);
+  });
 });

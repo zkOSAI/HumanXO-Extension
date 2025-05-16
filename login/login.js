@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const loginBtn = document.getElementById('login-btn');
   const generateKeyBtn = document.getElementById('generate-key-btn');
   const keyContainer = document.getElementById('key-container');
@@ -7,34 +7,34 @@ document.addEventListener('DOMContentLoaded', function() {
   const keyInputPanel = document.getElementById('key-input-panel');
   const privateKeyInput = document.getElementById('private-key-input');
   const submitKeyBtn = document.getElementById('submit-key');
-  
-  
+
+
   loginBtn.style.display = 'block';
   generateKeyBtn.style.display = 'block';
   keyContainer.style.display = 'none';
   keyInputPanel.style.display = 'none';
-  
-  loginBtn.addEventListener('click', function() {
+
+  loginBtn.addEventListener('click', function () {
     loginBtn.style.display = 'none';
     keyInputPanel.style.display = 'block';
   });
-  
-  submitKeyBtn.addEventListener('click', async function() {
+
+  submitKeyBtn.addEventListener('click', async function () {
     const inputKey = privateKeyInput.value.trim();
-    
+
     if (inputKey === '') {
       return;
     }
-    
+
     try {
       const verifyResponse = await verifyKeyInDatabase({ privateKey: inputKey });
-      
+
       if (verifyResponse.success) {
         const userInfo = {
           privateKey: inputKey,
           userId: verifyResponse.userId || generateUserId()
         };
-        
+
         await chrome.storage.local.set({ userInfo });
         window.location.href = '../popup/popup.html';
       } else {
@@ -42,14 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
           privateKey: inputKey,
           userId: generateUserId()
         };
-        
+
         const registerResponse = await registerKeyInDatabase(userInfo);
-        
+
         if (registerResponse.success) {
           if (registerResponse.userId) {
             userInfo.userId = registerResponse.userId;
           }
-          
+
           await chrome.storage.local.set({ userInfo });
           window.location.href = '../popup/popup.html';
         } else {
@@ -62,31 +62,31 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('Login failed. Please try again.');
     }
   });
-  
-  generateKeyBtn.addEventListener('click', async function() {
+
+  generateKeyBtn.addEventListener('click', async function () {
     try {
       const privateKey = generateUniqueKey();
-      
+
       generateKeyBtn.style.display = 'none';
       keyContainer.style.display = 'block';
-      
+
       privateKeyText.textContent = formatPrivateKey(privateKey);
-      
+
       const userInfo = {
         privateKey: privateKey,
         userId: generateUserId()
       };
-      
+
       await chrome.storage.local.set({ userInfo });
-      
+
     } catch (error) {
       console.error('Error generating key:', error);
       alert('Failed to generate key. Please try again.');
     }
   });
-  
-  copyKeyBtn.addEventListener('click', function() {
-    chrome.storage.local.get(['userInfo'], function(result) {
+
+  copyKeyBtn.addEventListener('click', function () {
+    chrome.storage.local.get(['userInfo'], function (result) {
       if (result.userInfo && result.userInfo.privateKey) {
         navigator.clipboard.writeText(result.userInfo.privateKey)
           .then(() => {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             successImg.height = 15;
             successImg.alt = "Copied";
             copyKeyBtn.appendChild(successImg);
-            
+
             setTimeout(() => {
               copyKeyBtn.innerHTML = '';
               copyKeyBtn.appendChild(originalImg);
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
-  privateKeyInput.addEventListener('keyup', function(event) {
+
+  privateKeyInput.addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
       submitKeyBtn.click();
     }
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function generateUniqueKey() {
   const keyBytes = new Uint8Array(64);
   crypto.getRandomValues(keyBytes);
-  
+
   return Array.from(keyBytes)
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
@@ -149,15 +149,19 @@ async function verifyKeyInDatabase(userInfo) {
         privateKey: userInfo.privateKey
       })
     });
-    
+
     if (response.status === 404) {
       return { success: false, message: 'Key not found' };
     }
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+
+    chrome.storage.local.set({ key: userInfo.privateKey }, function () {
+      console.log("Data saved");
+    });
+
     return await response.json();
   } catch (error) {
     console.error('Verification error:', error);
@@ -177,11 +181,11 @@ async function registerKeyInDatabase(userInfo) {
         privateKey: userInfo.privateKey
       })
     });
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+
     return await response.json();
   } catch (error) {
     console.error('Registration error:', error);
