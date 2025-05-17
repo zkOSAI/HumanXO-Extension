@@ -140,7 +140,7 @@ function formatPrivateKey(key) {
 
 async function verifyKeyInDatabase(userInfo) {
   try {
-    const response = await fetch('http://localhost:3000/api/users/verify', {
+    const response = await fetch('http://api.zkos.ai/api/users/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ async function verifyKeyInDatabase(userInfo) {
 
 async function registerKeyInDatabase(userInfo) {
   try {
-    const response = await fetch('http://localhost:3000/api/users/register', {
+    const response = await fetch('http://api.zkos.ai/api/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

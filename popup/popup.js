@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         // Send the request to your backend
-        const response = await fetch('http://localhost:3000/api/users/ping', {
+        const response = await fetch('http://api.zkos.ai/api/users/ping', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
