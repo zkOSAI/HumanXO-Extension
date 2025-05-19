@@ -119,12 +119,33 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function generateUniqueKey() {
-  const keyBytes = new Uint8Array(64);
+  // Generate random bytes for the key
+  const keyBytes = new Uint8Array(32); // 32 bytes = 256 bits
   crypto.getRandomValues(keyBytes);
-
-  return Array.from(keyBytes)
+  
+  // Convert key bytes to hex string
+  const keyHex = Array.from(keyBytes)
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
+  
+  // Calculate simple checksum
+  const checksum = calculateSimpleChecksum(keyHex);
+  
+  // Return key with checksum appended
+  return keyHex + checksum;
+}
+
+function calculateSimpleChecksum(str) {
+  // Simple FNV-like hash for demonstration
+  let hash = 0x811c9dc5; // FNV offset basis
+  
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  
+  // Convert to 8-character hex string
+  return (hash >>> 0).toString(16).padStart(8, '0');
 }
 
 function generateUserId() {
