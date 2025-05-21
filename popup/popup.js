@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const openDashboardButton = document.getElementById('open-dashboard');
   if (openDashboardButton) {
     openDashboardButton.addEventListener('click', function() {
-      window.open('https://www.zkos.ai/', '_blank');
+      window.open('https://app.zkos.ai/', '_blank');
     });
   }
 
