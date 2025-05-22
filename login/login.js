@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const submitKeyBtn = document.getElementById('submit-key');
 
   chrome.storage.local.get("loggedIn", (result) => {
-    if (!result.loggedIn) {
+    if (result.loggedIn) {
       // Not logged in? Redirect to login
       window.location.href = "../popup/popup.html";
     } else {
