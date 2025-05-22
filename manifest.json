@@ -15,8 +15,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_start"
     }
   ],
@@ -28,12 +32,13 @@
     "storage",
     "background",
     "fetch",
-    "clipboardWrite",
     "scripting"
   ],
   "web_accessible_resources": [
     {
-      "matches": [],
+      "matches": [
+        "<all_urls>"
+      ],
       "resources": [
         "contentStyle.css",
         "icon-128.png",
@@ -44,13 +49,11 @@
   ],
   "externally_connectable": {
     "matches": [
-      "http://127.0.0.1/*",
-      "http://localhost/*",
       "*://*.zkos.ai/*"
     ]
   },
   "host_permissions": [
-    "<all_urls>"
+    "*://*.zkos.ai/*"
   ],
   "version": "0.2.2"
 }
