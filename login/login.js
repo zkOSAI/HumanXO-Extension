@@ -8,7 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const privateKeyInput = document.getElementById('private-key-input');
   const submitKeyBtn = document.getElementById('submit-key');
 
-
+  chrome.storage.local.get("loggedIn", (result) => {
+    if (!result.loggedIn) {
+      // Not logged in? Redirect to login
+      window.location.href = "../popup/popup.html";
+    } else {
+      // Continue loading popup UI
+      console.log("User is logged in");
+    }
+  });
   loginBtn.style.display = 'block';
   generateKeyBtn.style.display = 'block';
   keyContainer.style.display = 'none';
@@ -36,7 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         await chrome.storage.local.set({ userInfo });
-        window.location.href = '../popup/popup.html';
+
+        chrome.storage.local.set({ loggedIn: true }, () => {
+          // After setting login, close login.html and open popup.html
+          window.location.href = '../popup/popup.html';
+        });
       } else {
         const userInfo = {
           privateKey: inputKey,
@@ -122,15 +134,15 @@ function generateUniqueKey() {
   // Generate random bytes for the key
   const keyBytes = new Uint8Array(32); // 32 bytes = 256 bits
   crypto.getRandomValues(keyBytes);
-  
+
   // Convert key bytes to hex string
   const keyHex = Array.from(keyBytes)
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
-  
+
   // Calculate simple checksum
   const checksum = calculateSimpleChecksum(keyHex);
-  
+
   // Return key with checksum appended
   return keyHex + checksum;
 }
@@ -138,12 +150,12 @@ function generateUniqueKey() {
 function calculateSimpleChecksum(str) {
   // Simple FNV-like hash for demonstration
   let hash = 0x811c9dc5; // FNV offset basis
-  
+
   for (let i = 0; i < str.length; i++) {
     hash ^= str.charCodeAt(i);
     hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
   }
-  
+
   // Convert to 8-character hex string
   return (hash >>> 0).toString(16).padStart(8, '0');
 }
